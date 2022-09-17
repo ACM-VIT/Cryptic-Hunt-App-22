@@ -1,6 +1,7 @@
 import 'providers/LoadingScreen/HomeScreenLoadingPercentage.dart';
 import 'screens/hamburger.dart';
 import 'screens/login.dart';
+import 'screens/navigation_manager.dart';
 import 'screens/onBoarding.dart';
 import 'screens/Loading.dart';
 import 'screens/splashScreen.dart';
@@ -21,8 +22,9 @@ class myApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "Routes",
-      initialRoute: Hamburger.id,
+      initialRoute: NavigationManager.id,
       routes: {
+        NavigationManager.id: (context) => const NavigationManager(),
         SplashScreen.id: (context) => const SplashScreen(),
         Login.id: (context) => const Login(),
         OnBoarding.id: (context) => const OnBoarding(),
