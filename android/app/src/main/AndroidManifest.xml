@@ -1,9 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.cryptic_hunt">
-
-    <uses-feature android:name="android.hardware.camera" />
+    package="com.example.test_proj">
    <application
-        android:label="cryptic_hunt"
+        android:label="test_proj"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

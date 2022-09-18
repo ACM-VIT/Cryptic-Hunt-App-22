@@ -60,7 +60,7 @@ class _CountDownTimerState extends State<CountDownTimer> {
                       textAlign: TextAlign.left,
                     ),
                     const Expanded(child: SizedBox()),
-                    SvgPicture.asset("assets/Owl-7.svg"),
+                    SvgPicture.asset('Owl-7.svg')
                   ],
                 ),
               ),

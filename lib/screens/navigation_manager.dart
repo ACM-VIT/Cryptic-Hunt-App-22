@@ -1,6 +1,7 @@
-import 'package:cryptic_hunt/screens/leaderboard.dart';
-import 'package:cryptic_hunt/widgets/countdowntimer.dart';
+import 'leaderboard.dart';
+import '/widgets/countdowntimer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class NavigationManager extends StatefulWidget {
   const NavigationManager({super.key});
@@ -22,26 +23,30 @@ class _NavigationManagerState extends State<NavigationManager> {
         children: pages,
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.blue,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white30,
-        currentIndex: currentIndex,
-        onTap: (index) {
-          setState(() {
-            currentIndex = index;
-          });
-        },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.leaderboard),
-            label: "Leaderboard",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: "Cryptic Hunt",
-          ),
-        ],
-      ),
+          type: BottomNavigationBarType.fixed,
+          // backgroundColor: Colors.blue,
+          selectedItemColor: Colors.blue,
+          unselectedItemColor: Colors.grey,
+          currentIndex: currentIndex,
+          onTap: (index) {
+            setState(() {
+              currentIndex = index;
+            });
+          },
+          items: [
+            BottomNavigationBarItem(
+              icon: SvgPicture.asset(
+                'assets/navbar/leaderboard_icon.svg',
+              ),
+              label: "Leaderboard",
+            ),
+            BottomNavigationBarItem(
+              icon: SvgPicture.asset(
+                'assets/navbar/cryptic_hunt_icon.svg',
+              ),
+              label: "The Hunt",
+            ),
+          ]),
     );
   }
 }

@@ -21,6 +21,7 @@ class myApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      color: const Color(0xffC7C7C7),
       title: "Routes",
       initialRoute: NavigationManager.id,
       routes: {
