@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
-class Textfeild extends StatefulWidget {
+class customTextFeild extends StatefulWidget {
   String hintMsg;
   TextEditingController controller;
   TextInputType inputType;
-  Textfeild(this.hintMsg, this.controller, this.inputType, {Key? key})
+  customTextFeild(this.hintMsg, this.controller, this.inputType, {Key? key})
       : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => TextfeildState();
+  State<StatefulWidget> createState() => customTextFeildState();
 }
 
-class TextfeildState extends State<Textfeild> {
+class customTextFeildState extends State<customTextFeild> {
   @override
   Widget build(BuildContext context) {
     return TextField(

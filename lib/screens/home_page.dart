@@ -1,6 +1,7 @@
 import 'package:cryptic_hunt/screens/loading_screen.dart';
 import 'package:cryptic_hunt/screens/navigation_manager.dart';
 import 'package:cryptic_hunt/screens/onBoarding.dart';
+import 'package:cryptic_hunt/screens/team.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -16,7 +17,7 @@ class HomePage extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const LoadingScreen();
         } else if (snapshot.hasData) {
-          return const NavigationManager();
+          return const TeamJoining();
         } else if (snapshot.hasError) {
           return const Center(child: Text('Something went wrong!'));
         } else {

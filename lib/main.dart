@@ -1,4 +1,7 @@
+import 'package:cryptic_hunt/Providers/createTeamProvider.dart';
+import 'package:cryptic_hunt/Providers/joinTeamProvider.dart';
 import 'package:cryptic_hunt/screens/home_page.dart';
+import 'package:cryptic_hunt/screens/team.dart';
 
 import 'providers/LoadingScreen/HomeScreenLoadingPercentage.dart';
 import 'screens/hamburger.dart';
@@ -16,8 +19,14 @@ import 'package:cryptic_hunt/screens/loading_screen.dart';
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(ChangeNotifierProvider(
-    create: (context) => Percentage(),
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(
+        create: (context) => Percentage(),
+      ),
+      //ChangeNotifierProvider(create: (_) => CreateTeamProvider()),
+      //ChangeNotifierProvider(create: (_) => JoinTeamProvider())
+    ],
     child: const myApp(),
   ));
 }
@@ -42,6 +51,7 @@ class myApp extends StatelessWidget {
         // Hamburger.id: (context) => const Hamburger(),
         CountDownTimer.id: (context) => const CountDownTimer(),
         SpeakerScreen.id: (context) => const SpeakerScreen(),
+        TeamJoining.id: (context) => const TeamJoining(),
       },
     );
   }

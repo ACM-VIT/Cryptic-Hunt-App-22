@@ -112,7 +112,7 @@ class OnBoardingPage extends StatelessWidget {
                     currentpage += 1;
                     controller.animateToPage(
                       currentpage.toInt(),
-                      duration: const Duration(milliseconds: 250),
+                      duration: const Duration(milliseconds: 300),
                       curve: Curves.linear,
                     );
                   } else {

@@ -29,6 +29,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  build_runner: ^2.2.1
   cupertino_icons: ^1.0.2
   dio: ^4.0.6
   firebase_auth: ^3.9.0
@@ -36,9 +37,12 @@ dependencies:
     sdk: flutter
   flutter_native_splash: ^2.2.9
   flutter_svg: ^1.1.5
+  fluttertoast: ^8.0.9
   google_fonts: ^3.0.1
   google_sign_in: ^5.4.1
   introduction_screen: ^3.0.2
+  json_annotation: ^4.6.0
+  json_serializable: ^6.3.2
   percent_indicator: ^4.2.2
   provider: ^6.0.3
   qr_code_scanner: ^1.0.1
