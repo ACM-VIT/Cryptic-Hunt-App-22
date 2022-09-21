@@ -9,8 +9,6 @@ import '../modelData/joinTeam.dart';
 
 class DioService {
   late Dio dio;
-  final googleSigninProvider = ChangeNotifierProvider<GoogleSignInProvider>(
-      create: (_) => GoogleSignInProvider());
   final baseURL = "http://65.1.18.154:8081";
   String? token;
   DioService() {
