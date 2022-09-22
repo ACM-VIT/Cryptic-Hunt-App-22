@@ -1,7 +1,7 @@
-import 'package:cryptic_hunt/screens/Loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'login.dart';
 
 class OnBoarding extends StatelessWidget {
   static String id = "OnBoarding";
@@ -112,14 +112,12 @@ class OnBoardingPage extends StatelessWidget {
                     currentpage += 1;
                     controller.animateToPage(
                       currentpage.toInt(),
-                      duration: const Duration(milliseconds: 250),
+                      duration: const Duration(milliseconds: 300),
                       curve: Curves.linear,
                     );
                   } else {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const Loading()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => const Login()));
                   }
                 },
                 style: ElevatedButton.styleFrom(
