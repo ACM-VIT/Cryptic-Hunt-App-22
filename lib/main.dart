@@ -3,6 +3,7 @@ import 'package:cryptic_hunt/Providers/home_page_notifier.dart';
 import 'package:cryptic_hunt/locator.dart';
 
 import 'package:cryptic_hunt/screens/home_page.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 
@@ -28,9 +29,19 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cryptic_hunt/screens/loading_screen.dart';
 
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  await Firebase.initializeApp();
+
+  print(
+      "Handling a background message: ${message.messageId} !! ${message.notification?.title}");
+}
+
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   setup();
   runApp(
     MultiProvider(
