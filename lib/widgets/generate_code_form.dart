@@ -82,8 +82,8 @@ class _GenerateCodeFormState extends State<GenerateCodeForm> {
                 onPressed: (Provider.of<TeamNotifier>(context).codeGenerated)
                     ? null
                     : () async {
+                        final sc = ScaffoldMessenger.of(context);
                         if (teamNameController.text.isNotEmpty) {
-                          print("ytresdfghjkbv");
                           final provider =
                               Provider.of<TeamNotifier>(context, listen: false);
                           bool result = await provider.createTeam(teamname);
@@ -94,7 +94,8 @@ class _GenerateCodeFormState extends State<GenerateCodeForm> {
                           }
                         } else {
                           // create team failed
-                          // TODO: Show alert dialog for create team failed
+                          sc.showSnackBar(const SnackBar(
+                              content: Text('Enter a team name!')));
                         }
                       },
                 style: ElevatedButton.styleFrom(

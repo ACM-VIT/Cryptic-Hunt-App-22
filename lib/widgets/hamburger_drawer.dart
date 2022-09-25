@@ -2,7 +2,7 @@ import 'package:cryptic_hunt/Providers/profile_notifier.dart';
 import 'package:cryptic_hunt/Providers/team_notifier.dart';
 import 'package:cryptic_hunt/Providers/timeline_page_notifier.dart';
 import 'package:cryptic_hunt/networking/gauth_service.dart';
-
+import 'package:cryptic_hunt/screens/timeline.dart';
 import 'package:cryptic_hunt/screens/archive_screen.dart';
 import 'package:cryptic_hunt/networking/profile_service.dart';
 import 'package:cryptic_hunt/screens/profile_page.dart';
@@ -29,53 +29,47 @@ class HamburgerDrawer extends StatelessWidget {
     return Drawer(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: ListView(
+        padding: const EdgeInsets.only(top: 16.0, left: 16, right: 16),
+        child: Column(
           // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(4.0, 0, 4.0, 0),
+              padding: const EdgeInsets.fromLTRB(4.0, 0, 4.0, 20),
               child: DrawerHeader(
                 decoration: const BoxDecoration(
                   border: Border(
-                      bottom: BorderSide(color: Color(0xFFFF7A01), width: 1)),
+                    bottom: BorderSide(color: Color(0xFFFF7A01), width: 1),
+                  ),
                 ),
                 child: Row(
                   children: [
                     CircleAvatar(
+                      radius: 27,
                       backgroundImage: NetworkImage(
-                          profileService.getUser()?.picture ??
-                              "www.defaultImage.com"),
+                        profileService.getUser()?.picture ??
+                            "www.defaultImage.com",
+                      ),
                     ),
                     const SizedBox(
                       width: 15,
                       height: 0,
                     ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          profileService.getUser()?.name ?? "loading...",
-                          style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w600,
-                              fontSize: 18),
-                        ),
-                        SizedBox(
-                          height: 17,
-                          width: 1,
-                        ),
-                        // Text(
-                        //   "50 PTS",
-                        //   style: TextStyle(
-                        //       fontFamily: 'Poppins',
-                        //       fontWeight: FontWeight.w600,
-                        //       fontSize: 14,
-                        //       color: Color(0xFF777777)),
-                        // )
-                      ],
+                    Flexible(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            profileService.getUser()?.name ?? "loading...",
+                            style:
+                                Theme.of(context).textTheme.subtitle1?.copyWith(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16,
+                                    ),
+                          ),
+                        ],
+                      ),
                     )
                   ],
                 ),
@@ -146,6 +140,8 @@ class HamburgerDrawer extends StatelessWidget {
                 );
               },
             ),
+            const Expanded(child: SizedBox()),
+            SvgPicture.asset('assets/HamBurger/hamburger_owl.svg'),
           ],
         ),
       ),

@@ -74,9 +74,8 @@ class JoinTeamScreen extends StatelessWidget {
                   ? const Center(child: CircularProgressIndicator())
                   : ElevatedButton(
                       onPressed: () async {
+                        final sc = ScaffoldMessenger.of(context);
                         if (teamCodeController.text.isNotEmpty) {
-                          final navigator = Navigator.of(context);
-                          print(teamCodeController.text);
                           bool result = await Provider.of<TeamNotifier>(context,
                                   listen: false)
                               .joinTeam(teamCodeController.text);
@@ -86,10 +85,10 @@ class JoinTeamScreen extends StatelessWidget {
                             Provider.of<HomePageNotifier>(context,
                                     listen: false)
                                 .changeState(HomePageState.loggedIn);
-                          } else {
-                            // join team failed
-                            // TODO: Show alert dialog saying that join team failed
                           }
+                        } else {
+                          sc.showSnackBar(const SnackBar(
+                              content: Text('Enter a team code')));
                         }
                       },
                       style: ElevatedButton.styleFrom(

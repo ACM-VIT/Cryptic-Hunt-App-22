@@ -110,6 +110,7 @@ flutter:
     - assets/splash/splash_bottom_text.png
     - assets/splash/splash_centre_text.png
     - assets/faq/faq_owl.svg
+    - assets/HamBurger/hamburger_owl.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

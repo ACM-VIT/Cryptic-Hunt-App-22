@@ -50,7 +50,7 @@ class HomePage extends StatelessWidget {
     if (notifier.state == HomePageState.onBoardingScreen) {
       return OnBoarding();
     } else if (notifier.state == HomePageState.loggedOut) {
-      return GoogleSignInPage();
+      return const GoogleSignInPage();
     } else if (notifier.state == HomePageState.notInTeam) {
       return ChangeNotifierProvider(
         create: (_) => TeamNotifier(),
