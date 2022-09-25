@@ -31,9 +31,6 @@ class HomePageNotifier extends ChangeNotifier {
       } else {
         //profile.User? profileUser = profileService.getUser();
         profile.User? profileUser = await profileService.getUserDetails();
-
-        print("yes");
-        print(profileUser);
         if (profileUser != null && profileUser.teamId == null) {
           state = HomePageState.notInTeam;
           notifyListeners();
