@@ -41,7 +41,7 @@ Future main() async {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       systemNavigationBarColor: Color(0xFFFFF4EA),
       statusBarColor: Color(0xFFFFF4EA),
-      statusBarIconBrightness: Brightness.light,
+      statusBarIconBrightness: Brightness.dark,
       systemNavigationBarIconBrightness: Brightness.dark));
   runApp(
     MultiProvider(
