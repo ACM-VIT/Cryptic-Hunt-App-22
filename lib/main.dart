@@ -21,16 +21,13 @@ import 'screens/google_sign_in_page.dart';
 import 'screens/navigation_manager.dart';
 import 'screens/onBoarding.dart';
 import 'screens/Loading.dart';
-import 'package:cryptic_hunt/screens/speakerScreen.dart';
 import 'package:cryptic_hunt/screens/signUp.dart';
 import 'package:cryptic_hunt/widgets/countdown_timer.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cryptic_hunt/screens/timeline.dart';
-import 'package:cryptic_hunt/screens/createTeam.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cryptic_hunt/screens/loading_screen.dart';
 
 Future main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -41,7 +38,7 @@ Future main() async {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       systemNavigationBarColor: Color(0xFFFFF4EA),
       statusBarColor: Color(0xFFFFF4EA),
-      statusBarIconBrightness: Brightness.light,
+      statusBarIconBrightness: Brightness.dark,
       systemNavigationBarIconBrightness: Brightness.dark));
   runApp(
     MultiProvider(
@@ -105,7 +102,7 @@ class myApp extends StatelessWidget {
                   builder: (context, value, child) =>
                       HomePage(notifier: value)),
             ),
-        LoadingScreen.id: (context) => const LoadingScreen(),
+
         NavigationManager.id: (context) => const NavigationManager(),
         SignUp.id: (context) => SignUp(),
         // SplashScreen.id: (context) => const SplashScreen(),
@@ -118,8 +115,7 @@ class myApp extends StatelessWidget {
 
         // Hamburger.id: (context) => const Hamburger(),
         CountDownTimer.id: (context) => const CountDownTimer(),
-        SpeakerScreen.id: (context) => const SpeakerScreen(),
-        CreateTeamFirst.id: (context) => CreateTeamFirst(),
+
         FaqScreen.id: (context) => FaqScreen(),
       },
     );

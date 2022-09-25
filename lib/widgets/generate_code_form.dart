@@ -39,6 +39,7 @@ class _GenerateCodeFormState extends State<GenerateCodeForm> {
           onChanged: (val) {
             teamname = val;
           },
+          maxLength: 15,
           controller: teamNameController,
           decoration: const InputDecoration(
             focusedBorder: OutlineInputBorder(
@@ -53,28 +54,28 @@ class _GenerateCodeFormState extends State<GenerateCodeForm> {
         const SizedBox(
           height: 16,
         ),
-        Text("Number of Members",
-            style: GoogleFonts.poppins(
-                fontWeight: FontWeight.w500,
-                fontSize: 16,
-                color: const Color(0xFF181818))),
-        const SizedBox(
-          height: 8,
-        ),
-        TextField(
-          decoration: const InputDecoration(
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Color(0xFFFF7A01), width: 1.0),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Color(0xFF181818), width: 1.0),
-            ),
-            hintText: "4",
-          ),
-        ),
-        const SizedBox(
-          height: 32,
-        ),
+        // Text("Number of Members",
+        //     style: GoogleFonts.poppins(
+        //         fontWeight: FontWeight.w500,
+        //         fontSize: 16,
+        //         color: const Color(0xFF181818))),
+        // const SizedBox(
+        //   height: 8,
+        // ),
+        // TextField(
+        //   decoration: const InputDecoration(
+        //     focusedBorder: OutlineInputBorder(
+        //       borderSide: BorderSide(color: Color(0xFFFF7A01), width: 1.0),
+        //     ),
+        //     enabledBorder: OutlineInputBorder(
+        //       borderSide: BorderSide(color: Color(0xFF181818), width: 1.0),
+        //     ),
+        //     hintText: "4",
+        //   ),
+        // ),
+        // const SizedBox(
+        //   height: 32,
+        // ),
         (Provider.of<TeamNotifier>(context).busy)
             ? const Center(child: CircularProgressIndicator())
             : ElevatedButton(
