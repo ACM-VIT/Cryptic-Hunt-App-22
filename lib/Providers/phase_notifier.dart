@@ -39,7 +39,7 @@ class PhaseNotifier extends ChangeNotifier {
         phase = currentPhase;
         yield phase!;
       }
-      await Future.delayed(Duration(seconds: 10));
+      await Future.delayed(Duration(seconds: 30));
     }
   }
 
