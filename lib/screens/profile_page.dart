@@ -4,6 +4,7 @@ import 'package:cryptic_hunt/widgets/signup/textWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:cryptic_hunt/data/user.dart';
 
@@ -113,7 +114,19 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                           onTap: () {
                             Clipboard.setData(ClipboardData(
-                                text: widget.state.team?.teamcode ?? ''));
+                                    text: widget.state.team?.teamcode ?? ''))
+                                .then(
+                              (value) {
+                                Fluttertoast.showToast(
+                                    msg: "Code copied",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIosWeb: 1,
+                                    backgroundColor: Colors.black38,
+                                    textColor: Colors.white,
+                                    fontSize: 16.0);
+                              },
+                            );
                           },
                         )
                       ],

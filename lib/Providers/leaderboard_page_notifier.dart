@@ -12,6 +12,7 @@ class LeaderBoardPageNotifier extends ChangeNotifier {
   Future<void> getLeaderBoard() async {
     isBusy(true);
     leaderBoard = await api.getLeaderBoard();
+
     if (leaderBoard?.team != null) {
       showTeamCard = true;
     }

@@ -15,22 +15,17 @@ import 'package:cryptic_hunt/screens/join_team.dart';
 
 import 'package:cryptic_hunt/screens/create_team.dart';
 import 'package:cryptic_hunt/screens/faq_screen.dart';
-import 'providers/LoadingScreen/HomeScreenLoadingPercentage.dart';
 
 import 'screens/google_sign_in_page.dart';
 import 'screens/navigation_manager.dart';
 import 'screens/onBoarding.dart';
-import 'screens/Loading.dart';
-import 'package:cryptic_hunt/screens/speakerScreen.dart';
 import 'package:cryptic_hunt/screens/signUp.dart';
 import 'package:cryptic_hunt/widgets/countdown_timer.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cryptic_hunt/screens/timeline.dart';
-import 'package:cryptic_hunt/screens/createTeam.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cryptic_hunt/screens/loading_screen.dart';
 
 Future main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -44,12 +39,7 @@ Future main() async {
       statusBarIconBrightness: Brightness.dark,
       systemNavigationBarIconBrightness: Brightness.dark));
   runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider<Percentage>(create: (_) => Percentage()),
-      ],
-      child: const myApp(),
-    ),
+    const myApp(),
   );
 }
 
@@ -69,6 +59,7 @@ class myApp extends StatelessWidget {
           thumbColor: MaterialStateProperty.all(Color(0XFFFF8618)),
           trackColor: MaterialStateProperty.all(Colors.black),
         ),
+        colorScheme: ColorScheme.fromSeed(seedColor: Color(0XFFFF8618)),
         scaffoldBackgroundColor: Color(0xFFFFF4EA),
         primaryColor: Color(0XFFFF8618),
         textTheme: TextTheme(
@@ -105,21 +96,19 @@ class myApp extends StatelessWidget {
                   builder: (context, value, child) =>
                       HomePage(notifier: value)),
             ),
-        LoadingScreen.id: (context) => const LoadingScreen(),
+
         NavigationManager.id: (context) => const NavigationManager(),
         SignUp.id: (context) => SignUp(),
         // SplashScreen.id: (context) => const SplashScreen(),
         GoogleSignInPage.id: (context) => const GoogleSignInPage(),
         OnBoarding.id: (context) => OnBoarding(),
-        Loading.id: (context) => const Loading(),
 
         NavigationManager.id: (context) => const NavigationManager(),
         // QuestionPage.id: (context) => QuestionPage(),
 
         // Hamburger.id: (context) => const Hamburger(),
         CountDownTimer.id: (context) => const CountDownTimer(),
-        SpeakerScreen.id: (context) => const SpeakerScreen(),
-        CreateTeamFirst.id: (context) => CreateTeamFirst(),
+
         FaqScreen.id: (context) => FaqScreen(),
       },
     );

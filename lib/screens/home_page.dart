@@ -1,14 +1,12 @@
 import 'dart:ui';
 
 import 'package:cryptic_hunt/Providers/home_page_notifier.dart';
-import 'package:cryptic_hunt/Providers/login_page_notifier.dart';
 import 'package:cryptic_hunt/Providers/phase_notifier.dart';
 import 'package:cryptic_hunt/Providers/question_group_list_notifier.dart';
 import 'package:cryptic_hunt/Providers/team_notifier.dart';
 import 'package:cryptic_hunt/Providers/leaderboard_page_notifier.dart';
 import 'package:cryptic_hunt/data/leaderboard.dart';
 import 'package:cryptic_hunt/screens/google_sign_in_page.dart';
-import 'package:cryptic_hunt/screens/loading_screen.dart';
 import 'package:cryptic_hunt/screens/navigation_manager.dart';
 import 'package:cryptic_hunt/screens/onBoarding.dart';
 import 'package:cryptic_hunt/screens/team_page.dart';
@@ -52,12 +50,7 @@ class HomePage extends StatelessWidget {
     if (notifier.state == HomePageState.onBoardingScreen) {
       return OnBoarding();
     } else if (notifier.state == HomePageState.loggedOut) {
-      return ChangeNotifierProvider(
-        create: (_) => LoginPageNotifier(),
-        builder: (context, child) {
-          return const GoogleSignInPage();
-        },
-      );
+      return GoogleSignInPage();
     } else if (notifier.state == HomePageState.notInTeam) {
       return ChangeNotifierProvider(
         create: (_) => TeamNotifier(),
