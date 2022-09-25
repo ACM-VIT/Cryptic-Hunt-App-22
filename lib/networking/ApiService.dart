@@ -70,7 +70,7 @@ class ApiService {
       }
     } on DioError catch (de, e) {
       print(
-          "[ERROR_GET_QUESTION_GROUP] ${de.response} \n ${de.requestOptions.headers}");
+          "[ERROR_GET_QUESTION_GROUP] ${de.response} \n ${de.requestOptions.headers} ${de.error}");
       rethrow;
     }
   }
@@ -91,8 +91,7 @@ class ApiService {
         return questionGroupDetail;
       }
     } on DioError catch (de, e) {
-      print(
-          "[ERROR_GET_QUESTION_GROUP_DETAIL] ${de.response} \n ${de.requestOptions.headers}");
+      print("[ERROR_GET_QUESTION_GROUP_DETAIL] ${de.response} ${de.error}");
     }
   }
 

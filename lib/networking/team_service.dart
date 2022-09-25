@@ -38,9 +38,11 @@ class TeamService {
   Future<User?> joinTeam(
       {String endpoint = '/teams/jointeam', required String? teamcode}) async {
     try {
+      print(teamcode);
       Response response =
           await dio.post(endpoint, data: {'teamcode': teamcode});
-
+      print("yess");
+      print(response.statusCode);
       if (response.statusCode == 200) {
         User user = User.fromJson(response.data);
         return user;

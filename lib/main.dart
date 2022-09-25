@@ -49,8 +49,11 @@ class myApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       color: const Color(0xffC7C7C7),
       theme: ThemeData(
+        snackBarTheme: SnackBarThemeData(
+            behavior: SnackBarBehavior.floating, backgroundColor: Colors.red),
         scrollbarTheme: ScrollbarThemeData(
           radius: Radius.circular(100),
           thickness: MaterialStateProperty.all(7),

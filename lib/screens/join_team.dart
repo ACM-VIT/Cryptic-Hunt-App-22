@@ -39,11 +39,11 @@ class JoinTeamScreen extends StatelessWidget {
             Padding(
                 padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
                 child: CustomTextWidget("Enter Team Code", fontFamily,
-                    FontWeight.w600, 24, const Color(0xff181818))),
+                    FontWeight.w600, 24, Theme.of(context).primaryColor)),
             Padding(
                 padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
                 child: CustomTextWidget(
-                    "description about what is team code, and from where the user can get it.",
+                    "Share the team code with your group members to let them join your team",
                     fontFamily,
                     FontWeight.w600,
                     24,
