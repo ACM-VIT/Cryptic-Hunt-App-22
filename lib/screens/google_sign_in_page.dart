@@ -11,18 +11,6 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'onBoarding.dart';
 
-// class GoogleSignInPage extends StatelessWidget {
-//   static String id = "Login";
-//   const GoogleSignInPage({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return const MaterialApp(
-//       home: LoginPage(),
-//     );
-//   }
-// }
-
 class GoogleSignInPage extends StatelessWidget {
   static String id = 'GoogleSignInPage';
   const GoogleSignInPage({Key? key}) : super(key: key);
