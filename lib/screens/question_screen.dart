@@ -257,7 +257,8 @@ class _QuestionScreenState extends State<QuestionScreen> {
                                         text: widget
                                                 .notifier
                                                 .questionGroupDetail
-                                                ?.questions?[index]
+                                                ?.questions?[widget
+                                                    .notifier.currentIndex]
                                                 .description ??
                                             "",
                                         onOpen: (link) async {
