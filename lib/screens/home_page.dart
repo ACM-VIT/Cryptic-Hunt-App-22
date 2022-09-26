@@ -77,6 +77,12 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.notifier.busy)
+      return Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
     if (widget.notifier.state == HomePageState.onBoardingScreen) {
       return OnBoarding();
     } else if (widget.notifier.state == HomePageState.loggedOut) {
