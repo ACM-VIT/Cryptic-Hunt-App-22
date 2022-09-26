@@ -491,7 +491,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                                     ? (widget.notifier.showScanButton)
                                         ? "Scan QR Code"
                                         : "Check Your Ans"
-                                    : "Your Team has solve this question",
+                                    : "Your Team has solved this question",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     color: Colors.black,

@@ -3,9 +3,10 @@
 <!--    package="com.example.firebase_authentication">-->
 
     <uses-feature android:name="android.hardware.camera" />
+    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/>
    <application
-        android:label="cryptic_hunt"
+        android:label="Cryptic Hunt"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
