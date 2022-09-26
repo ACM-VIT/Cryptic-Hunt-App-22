@@ -65,7 +65,7 @@ class MyDio {
             controller.add(BadRequestException(
                 e.response!.data['message'] ?? "An error occured"));
             handler.next(e);
-          } else if (e.response!.statusCode == 512) {
+          } else if (e.response!.statusCode == 521) {
             controller.add(BadGatewayException());
             handler.next(e);
           } else if (e.response!.statusCode == 403) {
