@@ -1,3 +1,4 @@
+import 'package:cryptic_hunt/Providers/home_page_notifier.dart';
 import 'package:cryptic_hunt/Providers/login_page_notifier.dart';
 import 'package:cryptic_hunt/Providers/team_notifier.dart';
 import 'package:cryptic_hunt/screens/navigation_manager.dart';
@@ -9,18 +10,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'onBoarding.dart';
-
-// class GoogleSignInPage extends StatelessWidget {
-//   static String id = "Login";
-//   const GoogleSignInPage({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return const MaterialApp(
-//       home: LoginPage(),
-//     );
-//   }
-// }
 
 class GoogleSignInPage extends StatelessWidget {
   static String id = 'GoogleSignInPage';

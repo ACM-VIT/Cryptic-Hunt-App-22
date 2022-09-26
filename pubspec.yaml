@@ -52,13 +52,21 @@ dependencies:
   flutter_linkify: ^5.0.2
   url_launcher: ^6.1.5
   intl: ^0.17.0
+  fluttertoast: ^8.0.9
 
 dev_dependencies:
+  flutter_launcher_icons: "^0.10.0"
+
   build_runner: ^2.2.1
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
   json_serializable: ^6.3.2
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/app_icon.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -109,6 +117,7 @@ flutter:
     - assets/splash/splash_bottom_text.png
     - assets/splash/splash_centre_text.png
     - assets/faq/faq_owl.svg
+    - assets/HamBurger/hamburger_owl.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

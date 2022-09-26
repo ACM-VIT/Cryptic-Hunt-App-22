@@ -5,6 +5,7 @@ import 'package:cryptic_hunt/screens/navigation_manager.dart';
 import 'package:cryptic_hunt/widgets/generate_code_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -75,10 +76,23 @@ class TeamCodeForm extends StatelessWidget {
                 ),
                 onTap: () {
                   Clipboard.setData(ClipboardData(
-                      text: Provider.of<TeamNotifier>(context, listen: false)
-                              .team
-                              ?.teamcode ??
-                          ''));
+                          text:
+                              Provider.of<TeamNotifier>(context, listen: false)
+                                      .team
+                                      ?.teamcode ??
+                                  ''))
+                      .then(
+                    (value) {
+                      Fluttertoast.showToast(
+                          msg: "Code copied",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.BOTTOM,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Colors.black38,
+                          textColor: Colors.white,
+                          fontSize: 16.0);
+                    },
+                  );
                 },
               )
             ],

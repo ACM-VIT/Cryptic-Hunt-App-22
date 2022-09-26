@@ -5,6 +5,7 @@ import 'package:cryptic_hunt/services/qr_scanner.dart';
 import 'package:cryptic_hunt/widgets/alerts/alert.dart';
 import 'package:cryptic_hunt/widgets/alerts/alreadySubmittedAlert.dart';
 import 'package:cryptic_hunt/widgets/alerts/buyHint.Alert.dart';
+import 'package:cryptic_hunt/widgets/alerts/hintFail.dart';
 import 'package:cryptic_hunt/widgets/alerts/partialSuccessAlert.dart';
 import 'package:cryptic_hunt/widgets/alerts/showHintAlert.dart';
 import 'package:cryptic_hunt/widgets/alerts/successAlert.dart';
@@ -99,6 +100,9 @@ class _QuestionScreenState extends State<QuestionScreen> {
                 if (hint != null) {
                   Navigator.of(context).pop();
                   _showMyDialog(Alert.showHint);
+                } else {
+                  Navigator.of(context).pop();
+                  _showMyDialog(Alert.hintFail);
                 }
               },
               cost: widget.notifier.questionGroupDetail!
@@ -111,6 +115,12 @@ class _QuestionScreenState extends State<QuestionScreen> {
                 hintText: widget.notifier.questionGroupDetail!
                         .questions![widget.notifier.currentIndex].hint ??
                     "error");
+          } else if (alert == Alert.hintFail) {
+            return HintFailAlert(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            );
           }
           return SuccessAlert(onPressed: () {
             int count = 0;
@@ -122,7 +132,6 @@ class _QuestionScreenState extends State<QuestionScreen> {
   }
 
   void changePageBy1(int x) {
-    //TODO: Write partial dialog
     if (x + widget.notifier.currentIndex < 0) {
       return;
     } else if (x + widget.notifier.currentIndex >=
@@ -164,11 +173,12 @@ class _QuestionScreenState extends State<QuestionScreen> {
                                     const EdgeInsets.fromLTRB(16, 16, 16, 0),
                                 child: CustomTextWidget(
                                     widget
-                                        .notifier
-                                        .questionGroupDetail!
-                                        .questions![
-                                            widget.notifier.currentIndex]
-                                        .title,
+                                            .notifier
+                                            .questionGroupDetail
+                                            ?.questions?[
+                                                widget.notifier.currentIndex]
+                                            .title ??
+                                        "",
                                     fontFamily,
                                     FontWeight.w600,
                                     20,
@@ -177,13 +187,14 @@ class _QuestionScreenState extends State<QuestionScreen> {
                                 padding:
                                     const EdgeInsets.fromLTRB(16, 4, 16, 16),
                                 child: CustomTextWidget(
-                                    widget
-                                            .notifier
-                                            .questionGroupDetail!
-                                            .questions![
-                                                widget.notifier.currentIndex]
-                                            .pointsAwarded
-                                            .toString() +
+                                    (widget
+                                                .notifier
+                                                .questionGroupDetail
+                                                ?.questions?[widget
+                                                    .notifier.currentIndex]
+                                                .pointsAwarded
+                                                .toString() ??
+                                            "") +
                                         " Points",
                                     fontFamily,
                                     FontWeight.w600,
@@ -244,15 +255,18 @@ class _QuestionScreenState extends State<QuestionScreen> {
                                 children: <Widget>[
                                       Linkify(
                                         text: widget
-                                            .notifier
-                                            .questionGroupDetail!
-                                            .questions![index]
-                                            .description,
+                                                .notifier
+                                                .questionGroupDetail
+                                                ?.questions?[widget
+                                                    .notifier.currentIndex]
+                                                .description ??
+                                            "",
                                         onOpen: (link) async {
                                           if (await canLaunchUrl(
                                               Uri.parse(link.url))) {
-                                            await launchUrl(
-                                                Uri.parse(link.url));
+                                            await launchUrl(Uri.parse(link.url),
+                                                mode: LaunchMode
+                                                    .externalApplication);
                                           } else {
                                             throw 'Could not launch $link';
                                           }
@@ -270,17 +284,18 @@ class _QuestionScreenState extends State<QuestionScreen> {
                                                     .primaryColor),
                                       ),
                                     ] +
-                                    widget
-                                        .notifier
-                                        .questionGroupDetail!
-                                        .questions![
-                                            widget.notifier.currentIndex]
-                                        .images
-                                        .map<Widget>((e) => Image.network(
-                                              e,
-                                              fit: BoxFit.contain,
-                                            ))
-                                        .toList()
+                                    (widget
+                                            .notifier
+                                            .questionGroupDetail
+                                            ?.questions?[
+                                                widget.notifier.currentIndex]
+                                            .images
+                                            .map<Widget>((e) => Image.network(
+                                                  e,
+                                                  fit: BoxFit.contain,
+                                                ))
+                                            .toList() ??
+                                        [])
 
                                 // CustomTextWidget(
                                 //     widget.notifier.questionGroupDetail!
@@ -313,8 +328,8 @@ class _QuestionScreenState extends State<QuestionScreen> {
                             onPressed: () {
                               if (widget
                                       .notifier
-                                      .questionGroupDetail!
-                                      .questions![widget.notifier.currentIndex]
+                                      .questionGroupDetail
+                                      ?.questions?[widget.notifier.currentIndex]
                                       .hint ==
                                   null) {
                                 _showMyDialog(Alert.buyHint);
@@ -477,7 +492,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                                     ? (widget.notifier.showScanButton)
                                         ? "Scan QR Code"
                                         : "Check Your Ans"
-                                    : "Your Team has solve this question",
+                                    : "Your Team has solved this question",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     color: Colors.black,

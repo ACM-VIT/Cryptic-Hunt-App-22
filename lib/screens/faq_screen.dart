@@ -17,7 +17,7 @@ class FaqSection extends StatelessWidget {
         const SizedBox(height: 25),
         Center(
           child: Text(
-            "About Us",
+            "About the event",
             style: Theme.of(context)
                 .textTheme
                 .headline1
@@ -28,11 +28,12 @@ class FaqSection extends StatelessWidget {
           height: 16,
         ),
         Text(
-            "Vestibulum dictum ultrices elit a luctus. Sed in ante ut leo congue posuere at sit amet ligula. Pellentesque eget augue nec nisl sodales blandit sed et sem. Aenean quis finibus arcu, in hendreri",
-            style: GoogleFonts.inter(
-                fontWeight: FontWeight.w400,
-                fontSize: 14,
-                color: const Color(0xFF000000))),
+          aboutUs,
+          style: Theme.of(context)
+              .textTheme
+              .subtitle1
+              ?.copyWith(fontSize: 12, color: Colors.black),
+        ),
         const SizedBox(
           height: 42,
         ),
@@ -41,7 +42,7 @@ class FaqSection extends StatelessWidget {
           height: 41,
         ),
         Text(
-          "FAQ",
+          "FAQs",
           style: Theme.of(context)
               .textTheme
               .headline1

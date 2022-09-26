@@ -6,4 +6,5 @@ enum Alert {
   partialSubmit,
   buyHint,
   showHint,
+  hintFail,
 }
