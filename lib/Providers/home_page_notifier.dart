@@ -19,6 +19,7 @@ class HomePageNotifier extends ChangeNotifier {
   late GAuthService auth;
   late ProfileService profileService;
   HomePageState state = HomePageState.onBoardingScreen;
+  bool busy = false;
 
   HomePageNotifier() {
     auth = GetIt.I<GAuthService>();
@@ -31,7 +32,9 @@ class HomePageNotifier extends ChangeNotifier {
         }
       } else {
         //profile.User? profileUser = profileService.getUser();
+        isBusy(true);
         profile.User? profileUser = await profileService.getUserDetails();
+        isBusy(false);
         if (profileUser != null && profileUser.teamId == null) {
           state = HomePageState.notInTeam;
           notifyListeners();
@@ -53,6 +56,13 @@ class HomePageNotifier extends ChangeNotifier {
   void changeState(HomePageState state) {
     if (this.state != state) {
       this.state = state;
+      notifyListeners();
+    }
+  }
+
+  void isBusy(bool x) {
+    if (x != busy) {
+      busy = x;
       notifyListeners();
     }
   }

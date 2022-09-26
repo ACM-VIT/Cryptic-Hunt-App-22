@@ -85,7 +85,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 Column(
                   children: [
                     Text(
-                      widget.state.team?.name.toUpperCase() ?? "Error",
+                      widget.state.team?.name.toUpperCase() ?? "Loading",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
