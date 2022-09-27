@@ -39,11 +39,11 @@ class JoinTeamScreen extends StatelessWidget {
             Padding(
                 padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
                 child: CustomTextWidget("Enter Team Code", fontFamily,
-                    FontWeight.w600, 24, const Color(0xff181818))),
+                    FontWeight.w600, 24, Theme.of(context).primaryColor)),
             Padding(
                 padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
                 child: CustomTextWidget(
-                    "description about what is team code, and from where the user can get it.",
+                    "Share the team code with your group members to let them join your team",
                     fontFamily,
                     FontWeight.w600,
                     24,
@@ -74,9 +74,8 @@ class JoinTeamScreen extends StatelessWidget {
                   ? const Center(child: CircularProgressIndicator())
                   : ElevatedButton(
                       onPressed: () async {
+                        final sc = ScaffoldMessenger.of(context);
                         if (teamCodeController.text.isNotEmpty) {
-                          final navigator = Navigator.of(context);
-                          print(teamCodeController.text);
                           bool result = await Provider.of<TeamNotifier>(context,
                                   listen: false)
                               .joinTeam(teamCodeController.text);
@@ -86,10 +85,10 @@ class JoinTeamScreen extends StatelessWidget {
                             Provider.of<HomePageNotifier>(context,
                                     listen: false)
                                 .changeState(HomePageState.loggedIn);
-                          } else {
-                            // join team failed
-                            // TODO: Show alert dialog saying that join team failed
                           }
+                        } else {
+                          sc.showSnackBar(const SnackBar(
+                              content: Text('Enter a team code')));
                         }
                       },
                       style: ElevatedButton.styleFrom(

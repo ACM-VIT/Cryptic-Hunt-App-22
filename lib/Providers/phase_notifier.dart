@@ -26,7 +26,6 @@ class PhaseNotifier extends ChangeNotifier {
 
   Stream<Phase> phaseStream() async* {
     Phase? currentPhase = phase;
-    print("LISTEN");
     while (true) {
       currentPhase = await api.getCurrentPhase() ??
           Phase(-1, -1, " Tick! Tock!", "Starts In",
@@ -39,7 +38,7 @@ class PhaseNotifier extends ChangeNotifier {
         phase = currentPhase;
         yield phase!;
       }
-      await Future.delayed(Duration(seconds: 10));
+      await Future.delayed(Duration(seconds: 30));
     }
   }
 

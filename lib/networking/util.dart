@@ -1,6 +1,10 @@
 // ignore_for_file: deprecated_member_use
 
+import 'dart:async';
+import 'dart:io';
+
 import 'package:cryptic_hunt/networking/gauth_service.dart';
+import 'package:cryptic_hunt/networking/networkExceptions.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -8,6 +12,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 class MyDio {
   static Dio? _dio;
   String baseUrl;
+  static StreamController<NetworkException> controller =
+      StreamController<NetworkException>();
+  late Stream<NetworkException> stream;
 
   static void _createDio(String baseUrl) {
     _dio = Dio(BaseOptions(baseUrl: baseUrl));
@@ -52,10 +59,29 @@ class MyDio {
                 return null;
               }
             }
+          } else if (e.response!.statusCode == 404 ||
+              e.response!.statusCode == 400) {
+            print(e.response.toString());
+            controller.add(BadRequestException(
+                e.response!.data['message'] ?? "An error occured"));
+            handler.next(e);
+          } else if (e.response!.statusCode == 521) {
+            controller.add(BadGatewayException());
+            handler.next(e);
+          } else if (e.response!.statusCode == 403) {
+            controller.add(WhiteListException());
+            handler.next(e);
+          } else if (e.response!.statusCode == 429) {
+            controller.add(TooManyRequestException());
+            handler.next(e);
           } else {
+            controller.add(DefaultException());
             handler.next(e);
           }
         } else {
+          if (e.error is SocketException) {
+            controller.add(NoInternetException());
+          }
           handler.next(e);
         }
       },
@@ -63,6 +89,7 @@ class MyDio {
   }
 
   MyDio({required this.baseUrl}) {
+    stream = controller.stream;
     _createDio(baseUrl);
   }
 

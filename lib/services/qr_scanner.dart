@@ -38,6 +38,7 @@ class QrScannerState extends State<QrScanner> {
         children: [
           QRView(
             key: qrKey,
+            onPermissionSet: _onPermissionSetCallback,
             onQRViewCreated: _onQRViewCreated,
             overlay: QrScannerOverlayShape(
               borderColor: Theme.of(context).primaryColor,
@@ -60,6 +61,13 @@ class QrScannerState extends State<QrScanner> {
         ],
       ),
     );
+  }
+
+  void _onPermissionSetCallback(
+      QRViewController controller, bool hasPermission) {
+    if (!hasPermission) {
+      Navigator.of(context).pop();
+    }
   }
 
   void _onQRViewCreated(QRViewController controller) {
