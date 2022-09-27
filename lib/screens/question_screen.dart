@@ -47,12 +47,22 @@ class _QuestionScreenState extends State<QuestionScreen> {
 
   late PageController _pageController;
 
+  FocusNode _focusNode = FocusNode();
+
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) => widget.notifier
             .getQuestionGroupDetail(widget.questionGroupDetailId)
             .then((value) {
           initPageController();
+
+          _focusNode.addListener(() {
+            if (_focusNode.hasFocus) {
+              widget.notifier.toggleEditing(true);
+            } else {
+              widget.notifier.toggleEditing(false);
+            }
+          });
 
           if ((widget.notifier.questionGroupDetail
                       ?.numQuestionsSolvedQuestionGroup ??
@@ -145,6 +155,51 @@ class _QuestionScreenState extends State<QuestionScreen> {
     widget.notifier.changePage(x + widget.notifier.currentIndex);
   }
 
+  void onSubmit() async {
+    if (!(widget.notifier.questionGroupDetail
+            ?.questions![widget.notifier.currentIndex].solved ??
+        false)) {
+      Answer? answer;
+      if (widget.notifier.showScanButton) {
+        await Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => QrScanner(
+            onScan: (ans) {
+              answer = Answer(ans, widget.notifier.questionGroupDetail!.id,
+                  widget.notifier.currentIndex + 1);
+            },
+          ),
+        ));
+      } else {
+        answer = Answer(
+            _controller.text,
+            widget.notifier.questionGroupDetail!.id,
+            widget.notifier.currentIndex + 1);
+      }
+
+      if (answer == null) {
+        _controller.text = "";
+        widget.notifier.toggleScanButton(true);
+        return;
+      }
+      bool x = await widget.notifier.submitAns(answer!);
+      if (x) {
+        await widget.notifier
+            .getQuestionGroupDetail(widget.questionGroupDetailId);
+
+        if (widget.notifier.questionGroupDetail
+                ?.numQuestionsSolvedQuestionGroup ==
+            widget.notifier.questionGroupDetail?.numberOfQuestions)
+          _showMyDialog(Alert.success);
+        else
+          _showMyDialog(Alert.partialSubmit);
+      } else {
+        _showMyDialog(Alert.wrong);
+      }
+      _controller.text = "";
+      widget.notifier.toggleScanButton(true);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -155,200 +210,327 @@ class _QuestionScreenState extends State<QuestionScreen> {
               child: CircularProgressIndicator(),
             )
           : SafeArea(
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CustomAppBarWidget(
-                        title: widget.notifier.questionGroupDetail?.name ??
-                            "Question Prompt"),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(16, 16, 16, 0),
-                                child: CustomTextWidget(
-                                    widget
-                                            .notifier
-                                            .questionGroupDetail
-                                            ?.questions?[
-                                                widget.notifier.currentIndex]
-                                            .title ??
-                                        "",
-                                    fontFamily,
-                                    FontWeight.w600,
-                                    20,
-                                    const Color(0xff000000))),
-                            Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(16, 4, 16, 16),
-                                child: CustomTextWidget(
-                                    (widget
-                                                .notifier
-                                                .questionGroupDetail
-                                                ?.questions?[widget
-                                                    .notifier.currentIndex]
-                                                .pointsAwarded
-                                                .toString() ??
-                                            "") +
-                                        " Points",
-                                    fontFamily,
-                                    FontWeight.w600,
-                                    16,
-                                    const Color(0xff8A8A8A)))
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            IconButton(
-                              icon: Icon(
-                                Icons.arrow_back_ios_sharp,
-                                color: (widget.notifier.currentIndex == 0)
-                                    ? Colors.black
-                                    : Theme.of(context).primaryColor,
-                              ),
-                              onPressed: () {
-                                changePageBy1(-1);
-                              },
-                            ),
-                            Text(
-                              (widget.notifier.currentIndex + 1).toString(),
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline1
-                                  ?.copyWith(
-                                      color: Theme.of(context).primaryColor,
-                                      fontSize: 20),
-                            ),
-                            IconButton(
-                              icon: Icon(
-                                Icons.arrow_forward_ios_sharp,
-                                color: (widget.notifier.currentIndex ==
-                                        (widget.notifier.questionGroupDetail
-                                                    ?.numberOfQuestions ??
-                                                1) -
-                                            1)
-                                    ? Colors.black
-                                    : Theme.of(context).primaryColor,
-                              ),
-                              onPressed: () {
-                                changePageBy1(1);
-                              },
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                    Expanded(
-                        child: PageView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      controller: _pageController,
-                      itemBuilder: (context, index) => Padding(
-                          padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-                          child: Scrollbar(
-                            child: ListView(
-                                padding: EdgeInsets.only(right: 16),
-                                children: <Widget>[
-                                      Linkify(
-                                        text: widget
-                                                .notifier
-                                                .questionGroupDetail
-                                                ?.questions?[widget
-                                                    .notifier.currentIndex]
-                                                .description ??
-                                            "",
-                                        onOpen: (link) async {
-                                          if (await canLaunchUrl(
-                                              Uri.parse(link.url))) {
-                                            await launchUrl(Uri.parse(link.url),
-                                                mode: LaunchMode
-                                                    .externalApplication);
-                                          } else {
-                                            throw 'Could not launch $link';
-                                          }
-                                        },
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline1
-                                            ?.copyWith(fontSize: 18),
-                                        linkStyle: Theme.of(context)
-                                            .textTheme
-                                            .headline1
-                                            ?.copyWith(
-                                                fontSize: 18,
-                                                color: Theme.of(context)
-                                                    .primaryColor),
-                                      ),
-                                    ] +
-                                    (widget
-                                            .notifier
-                                            .questionGroupDetail
-                                            ?.questions?[
-                                                widget.notifier.currentIndex]
-                                            .images
-                                            .map<Widget>((e) => Image.network(
-                                                  e,
-                                                  fit: BoxFit.contain,
-                                                ))
-                                            .toList() ??
-                                        [])
-
-                                // CustomTextWidget(
-                                //     widget.notifier.questionGroupDetail!
-                                //         .questions![index].description,
-                                //     fontFamily,
-                                //     FontWeight.w600,
-                                //     18,
-                                //     const Color(0xff181818)),
-
+              child: GestureDetector(
+                onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomAppBarWidget(
+                          title: widget.notifier.questionGroupDetail?.name ??
+                              "Question Prompt"),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                                  child: CustomTextWidget(
+                                      widget
+                                              .notifier
+                                              .questionGroupDetail
+                                              ?.questions?[
+                                                  widget.notifier.currentIndex]
+                                              .title ??
+                                          "",
+                                      fontFamily,
+                                      FontWeight.w600,
+                                      20,
+                                      const Color(0xff000000))),
+                              Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(16, 4, 16, 16),
+                                  child: CustomTextWidget(
+                                      (widget
+                                                  .notifier
+                                                  .questionGroupDetail
+                                                  ?.questions?[widget
+                                                      .notifier.currentIndex]
+                                                  .pointsAwarded
+                                                  .toString() ??
+                                              "") +
+                                          " Points",
+                                      fontFamily,
+                                      FontWeight.w600,
+                                      16,
+                                      const Color(0xff8A8A8A)))
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              IconButton(
+                                icon: Icon(
+                                  Icons.arrow_back_ios_sharp,
+                                  color: (widget.notifier.currentIndex == 0)
+                                      ? Colors.black
+                                      : Theme.of(context).primaryColor,
                                 ),
-                          )),
-                    )),
-                    if (!(widget
-                                .notifier
-                                .questionGroupDetail
-                                ?.questions![widget.notifier.currentIndex]
-                                .solved ??
-                            false) &&
-                        widget
-                                .notifier
-                                .questionGroupDetail
-                                ?.questions![widget.notifier.currentIndex]
-                                .costOfHint !=
-                            null)
-                      Align(
-                        alignment: Alignment.center,
-                        child: Container(
-                          width: 80,
-                          child: TextButton(
-                            onPressed: () {
-                              if (widget
-                                      .notifier
-                                      .questionGroupDetail
-                                      ?.questions?[widget.notifier.currentIndex]
-                                      .hint ==
-                                  null) {
-                                _showMyDialog(Alert.buyHint);
-                              } else {
-                                _showMyDialog(Alert.showHint);
-                              }
-                            },
-                            child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                      padding:
-                                          const EdgeInsets.fromLTRB(4, 4, 0, 4),
-                                      child: Icon(
-                                        Icons.contact_support,
+                                onPressed: () {
+                                  changePageBy1(-1);
+                                },
+                              ),
+                              Text(
+                                (widget.notifier.currentIndex + 1).toString(),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline1
+                                    ?.copyWith(
                                         color: Theme.of(context).primaryColor,
+                                        fontSize: 20),
+                              ),
+                              IconButton(
+                                icon: Icon(
+                                  Icons.arrow_forward_ios_sharp,
+                                  color: (widget.notifier.currentIndex ==
+                                          (widget.notifier.questionGroupDetail
+                                                      ?.numberOfQuestions ??
+                                                  1) -
+                                              1)
+                                      ? Colors.black
+                                      : Theme.of(context).primaryColor,
+                                ),
+                                onPressed: () {
+                                  changePageBy1(1);
+                                },
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                      Expanded(
+                          child: PageView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        controller: _pageController,
+                        itemBuilder: (context, index) => Padding(
+                            padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+                            child: Scrollbar(
+                              child: ListView(
+                                  padding: EdgeInsets.only(right: 16),
+                                  children: <Widget>[
+                                        Linkify(
+                                          text: widget
+                                                  .notifier
+                                                  .questionGroupDetail
+                                                  ?.questions?[widget
+                                                      .notifier.currentIndex]
+                                                  .description ??
+                                              "",
+                                          onOpen: (link) async {
+                                            if (await canLaunchUrl(
+                                                Uri.parse(link.url))) {
+                                              await launchUrl(
+                                                  Uri.parse(link.url),
+                                                  mode: LaunchMode
+                                                      .externalApplication);
+                                            } else {
+                                              throw 'Could not launch $link';
+                                            }
+                                          },
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline1
+                                              ?.copyWith(fontSize: 18),
+                                          linkStyle: Theme.of(context)
+                                              .textTheme
+                                              .headline1
+                                              ?.copyWith(
+                                                  fontSize: 18,
+                                                  color: Theme.of(context)
+                                                      .primaryColor),
+                                        ),
+                                      ] +
+                                      (widget
+                                              .notifier
+                                              .questionGroupDetail
+                                              ?.questions?[
+                                                  widget.notifier.currentIndex]
+                                              .images
+                                              .map<Widget>((e) => Image.network(
+                                                    e,
+                                                    fit: BoxFit.contain,
+                                                  ))
+                                              .toList() ??
+                                          [])
+
+                                  // CustomTextWidget(
+                                  //     widget.notifier.questionGroupDetail!
+                                  //         .questions![index].description,
+                                  //     fontFamily,
+                                  //     FontWeight.w600,
+                                  //     18,
+                                  //     const Color(0xff181818)),
+
+                                  ),
+                            )),
+                      )),
+                      if (!(widget
+                                  .notifier
+                                  .questionGroupDetail
+                                  ?.questions![widget.notifier.currentIndex]
+                                  .solved ??
+                              false) &&
+                          widget
+                                  .notifier
+                                  .questionGroupDetail
+                                  ?.questions![widget.notifier.currentIndex]
+                                  .costOfHint !=
+                              null)
+                        Align(
+                          alignment: Alignment.center,
+                          child: Container(
+                            width: 80,
+                            child: TextButton(
+                              onPressed: () {
+                                if (widget
+                                        .notifier
+                                        .questionGroupDetail
+                                        ?.questions?[
+                                            widget.notifier.currentIndex]
+                                        .hint ==
+                                    null) {
+                                  _showMyDialog(Alert.buyHint);
+                                } else {
+                                  _showMyDialog(Alert.showHint);
+                                }
+                              },
+                              child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            4, 4, 0, 4),
+                                        child: Icon(
+                                          Icons.contact_support,
+                                          color: Theme.of(context).primaryColor,
+                                        )),
+                                    Text(
+                                      "hint",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontFamily: fontFamily,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 14),
+                                    )
+                                  ]),
+                            ),
+                          ),
+                        ),
+                      if (!(widget
+                              .notifier
+                              .questionGroupDetail
+                              ?.questions![widget.notifier.currentIndex]
+                              .solved ??
+                          false))
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                          child: Text("Enter Text",
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                  color: const Color(0xff181818),
+                                  fontFamily: fontFamily,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 14)),
+                        ),
+                      if (!(widget
+                              .notifier
+                              .questionGroupDetail
+                              ?.questions![widget.notifier.currentIndex]
+                              .solved ??
+                          false))
+                        Padding(
+                            padding: const EdgeInsets.fromLTRB(16, 4, 16, 8),
+                            child: TextField(
+                              controller: _controller,
+                              onChanged: ((value) {
+                                if (value.isEmpty) {
+                                  widget.notifier.toggleScanButton(true);
+                                } else {
+                                  widget.notifier.toggleScanButton(false);
+                                }
+                              }),
+                              focusNode: _focusNode,
+                              // onTap: () {
+                              //   widget.notifier.toggleScanButton(false);
+                              // },
+                              onSubmitted: (value) async {
+                                onSubmit();
+                              },
+                            )),
+                      if (!(widget
+                              .notifier
+                              .questionGroupDetail
+                              ?.questions![widget.notifier.currentIndex]
+                              .solved ??
+                          false))
+                        (widget.notifier.showScanButton &&
+                                !widget.notifier.isEditing)
+                            ? Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Padding(
+                                      padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                      child: Divider(
+                                        color: Color(0xff8A8A8A),
+                                        height: 8.0,
+                                        thickness: 1.0,
                                       )),
+                                  Text("or",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: const Color(0xff8A8A8A),
+                                          fontFamily: fontFamily,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 14)),
+                                  const Padding(
+                                      padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                      child: Divider(
+                                        color: Color(0xff8A8A8A),
+                                        height: 8.0,
+                                        thickness: 1.0,
+                                      ))
+                                ],
+                              )
+                            : Container(),
+                      if (!widget.notifier.isEditing)
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              onSubmit();
+                            },
+                            style: ElevatedButton.styleFrom(
+                                primary: const Color(0xffFF7A01),
+                                minimumSize: const Size.fromHeight(40)),
+                            child: Center(
+                                child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                  Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          4, 16, 8, 16),
+                                      child: (!widget.notifier.showScanButton)
+                                          ? Icon(
+                                              Icons.done,
+                                              color: Colors.black,
+                                            )
+                                          : qrIcon),
                                   Text(
-                                    "hint",
+                                    (!(widget
+                                                .notifier
+                                                .questionGroupDetail
+                                                ?.questions![widget
+                                                    .notifier.currentIndex]
+                                                .solved ??
+                                            false))
+                                        ? (widget.notifier.showScanButton)
+                                            ? "Scan QR Code"
+                                            : "Check Your Ans"
+                                        : "Your Team has solved this question",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         color: Colors.black,
@@ -356,157 +538,14 @@ class _QuestionScreenState extends State<QuestionScreen> {
                                         fontWeight: FontWeight.w600,
                                         fontSize: 14),
                                   )
-                                ]),
+                                ])),
                           ),
                         ),
-                      ),
-                    if (!(widget.notifier.questionGroupDetail
-                            ?.questions![widget.notifier.currentIndex].solved ??
-                        false))
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-                        child: Text("Enter Text",
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                                color: const Color(0xff181818),
-                                fontFamily: fontFamily,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 14)),
-                      ),
-                    if (!(widget.notifier.questionGroupDetail
-                            ?.questions![widget.notifier.currentIndex].solved ??
-                        false))
-                      Padding(
-                          padding: const EdgeInsets.fromLTRB(16, 4, 16, 8),
-                          child: TextField(
-                            controller: _controller,
-                            onChanged: ((value) {
-                              if (value.isEmpty) {
-                                widget.notifier.toggleScanButton(true);
-                              } else {
-                                widget.notifier.toggleScanButton(false);
-                              }
-                            }),
-                          )),
-                    if (!(widget.notifier.questionGroupDetail
-                            ?.questions![widget.notifier.currentIndex].solved ??
-                        false))
-                      (widget.notifier.showScanButton)
-                          ? Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Padding(
-                                    padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                                    child: Divider(
-                                      color: Color(0xff8A8A8A),
-                                      height: 8.0,
-                                      thickness: 1.0,
-                                    )),
-                                Text("or",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: const Color(0xff8A8A8A),
-                                        fontFamily: fontFamily,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 14)),
-                                const Padding(
-                                    padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                                    child: Divider(
-                                      color: Color(0xff8A8A8A),
-                                      height: 8.0,
-                                      thickness: 1.0,
-                                    ))
-                              ],
-                            )
-                          : Container(),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          if (!(widget
-                                  .notifier
-                                  .questionGroupDetail
-                                  ?.questions![widget.notifier.currentIndex]
-                                  .solved ??
-                              false)) {
-                            Answer? answer;
-                            if (widget.notifier.showScanButton) {
-                              await Navigator.of(context)
-                                  .push(MaterialPageRoute(
-                                builder: (context) => QrScanner(
-                                  onScan: (ans) {
-                                    answer = Answer(
-                                        ans,
-                                        widget.notifier.questionGroupDetail!.id,
-                                        widget.notifier.currentIndex + 1);
-                                  },
-                                ),
-                              ));
-                            } else {
-                              answer = Answer(
-                                  _controller.text,
-                                  widget.notifier.questionGroupDetail!.id,
-                                  widget.notifier.currentIndex + 1);
-                            }
-                            bool x = await widget.notifier.submitAns(answer!);
-                            if (x) {
-                              await widget.notifier.getQuestionGroupDetail(
-                                  widget.questionGroupDetailId);
-
-                              if (widget.notifier.questionGroupDetail
-                                      ?.numQuestionsSolvedQuestionGroup ==
-                                  widget.notifier.questionGroupDetail
-                                      ?.numberOfQuestions)
-                                _showMyDialog(Alert.success);
-                              else
-                                _showMyDialog(Alert.partialSubmit);
-                            } else {
-                              _showMyDialog(Alert.wrong);
-                            }
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                            primary: const Color(0xffFF7A01),
-                            minimumSize: const Size.fromHeight(40)),
-                        child: Center(
-                            child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                              Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(4, 16, 8, 16),
-                                  child: (!widget.notifier.showScanButton)
-                                      ? Icon(
-                                          Icons.done,
-                                          color: Colors.black,
-                                        )
-                                      : qrIcon),
-                              Text(
-                                (!(widget
-                                            .notifier
-                                            .questionGroupDetail
-                                            ?.questions![
-                                                widget.notifier.currentIndex]
-                                            .solved ??
-                                        false))
-                                    ? (widget.notifier.showScanButton)
-                                        ? "Scan QR Code"
-                                        : "Check Your Ans"
-                                    : "Your Team has solved this question",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontFamily: fontFamily,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 14),
-                              )
-                            ])),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    )
-                  ]),
+                      const SizedBox(
+                        height: 20,
+                      )
+                    ]),
+              ),
             ),
     );
   }
