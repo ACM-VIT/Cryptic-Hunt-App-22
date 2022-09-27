@@ -139,7 +139,6 @@
 				9705A1C41CF9048500538489 /* Embed Frameworks */,
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
 				969CB5F4FE764639C22BA0F0 /* [CP] Embed Pods Frameworks */,
-				4B6BAFBC28E33E6E00EA677B /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -233,23 +232,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" embed_and_thin\n";
-		};
-		4B6BAFBC28E33E6E00EA677B /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\n# Install CocoaPods using Homebrew.\nbrew install cocoapods\n\n# Install Flutter\nbrew install --cask flutter\n\n# Run Flutter doctor\nflutter doctor\n\n# Get packages\nflutter packages get\n\n# Update generated files\nflutter pub run build_runner build\n\n# Build ios app\nflutter build ios --no-codesign\n";
 		};
 		969CB5F4FE764639C22BA0F0 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
