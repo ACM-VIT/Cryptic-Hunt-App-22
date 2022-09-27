@@ -75,6 +75,7 @@ class QrScannerState extends State<QrScanner> {
     controller.resumeCamera();
     controller.scannedDataStream.listen((scanData) {
       widget.onScan(scanData.code!.substring(7));
+      controller.stopCamera();
       // print("-------------------------${scanData.code!}-----------------");
       Navigator.of(context).pop();
     });
