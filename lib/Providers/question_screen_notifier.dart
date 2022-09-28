@@ -17,6 +17,7 @@ class QuestionScreenNotifier extends ChangeNotifier {
   late QuestionGroupDetail? questionGroupDetail;
   bool showScanButton = true;
   int currentIndex = 0;
+  bool isEditing = false;
 
   QuestionScreenNotifier() {
     api = GetIt.I<ApiService>();
@@ -25,6 +26,13 @@ class QuestionScreenNotifier extends ChangeNotifier {
   void toggleScanButton(bool x) {
     if (x != showScanButton) {
       showScanButton = x;
+      notifyListeners();
+    }
+  }
+
+  void toggleEditing(bool x) {
+    if (x != isEditing) {
+      isEditing = x;
       notifyListeners();
     }
   }

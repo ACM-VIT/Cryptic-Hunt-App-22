@@ -156,119 +156,126 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 0, 0, 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Flexible(
-                              child: Column(
-                                children: [
-                                  CustomTextWidget(
-                                      widget.state.user?.name ?? " ",
-                                      fontFamily,
-                                      FontWeight.w700,
-                                      24,
-                                      const Color(0xff181818)),
-                                ],
-                              ),
-                            ),
-                            //const Expanded(flex: 1, child: SizedBox()),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8),
-                              child: TextButton(
-                                  onPressed: () {
-                                    widget.state.logOut().then(
-                                        (value) => Navigator.of(context).pop());
-                                  },
-                                  child: CustomTextWidget(
-                                      "Logout",
-                                      fontFamily,
-                                      FontWeight.w500,
-                                      14,
-                                      const Color(0xff828282))),
-                            )
-                          ],
-                        ),
-                        Text(widget.state.user?.email ?? " ",
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 16,
-                                color: const Color(0xFFFF7A01))),
-                        const SizedBox(
-                          height: 24,
-                        ),
-                        CustomTextWidget("Members", fontFamily, FontWeight.w500,
-                            20, const Color(0xff000000)),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        // Row(
-                        //   children: [
-                        //     CustomTextWidget("Team Leader", fontFamily,
-                        //         FontWeight.w400, 16, const Color(0xff181818)),
-                        //     const SizedBox(
-                        //       width: 10,
-                        //     ),
-                        //     SvgPicture.asset("assets/profilepageleadericon.svg")
-                        //   ],
-                        // ),
-                        // const SizedBox(
-                        //   height: 20,
-                        // ),
-                        ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: widget.state.team?.members?.length ?? 0,
-                          itemBuilder: (context, index) {
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
+            Expanded(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+                child: ListView(
+                  // crossAxisAlignment: CrossAxisAlignment.start,
+                  // mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(10, 0, 0, 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Flexible(
+                                child: Column(
                                   children: [
-                                    Flexible(
-                                      child: Column(
-                                        children: [
-                                          CustomTextWidget(
-                                              widget.state.team?.members?[index]
-                                                      .name ??
-                                                  " ",
-                                              fontFamily,
-                                              FontWeight.w400,
-                                              16,
-                                              const Color(0xff181818)),
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    if (widget.state.team?.members?[index].id ==
-                                        widget.state.team?.teamLeaderId)
-                                      SvgPicture.asset(
-                                          "assets/profilepageleadericon.svg")
+                                    CustomTextWidget(
+                                        widget.state.user?.name ?? " ",
+                                        fontFamily,
+                                        FontWeight.w700,
+                                        24,
+                                        const Color(0xff181818)),
                                   ],
                                 ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                              ],
-                            );
-                          },
-                        ),
-                      ],
+                              ),
+                              //const Expanded(flex: 1, child: SizedBox()),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8),
+                                child: TextButton(
+                                    onPressed: () {
+                                      widget.state.logOut().then((value) =>
+                                          Navigator.of(context).pop());
+                                    },
+                                    child: CustomTextWidget(
+                                        "Logout",
+                                        fontFamily,
+                                        FontWeight.w500,
+                                        14,
+                                        const Color(0xff828282))),
+                              )
+                            ],
+                          ),
+                          Text(widget.state.user?.email ?? " ",
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 16,
+                                  color: const Color(0xFFFF7A01))),
+                          const SizedBox(
+                            height: 24,
+                          ),
+                          CustomTextWidget("Members", fontFamily,
+                              FontWeight.w500, 20, const Color(0xff000000)),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          // Row(
+                          //   children: [
+                          //     CustomTextWidget("Team Leader", fontFamily,
+                          //         FontWeight.w400, 16, const Color(0xff181818)),
+                          //     const SizedBox(
+                          //       width: 10,
+                          //     ),
+                          //     SvgPicture.asset("assets/profilepageleadericon.svg")
+                          //   ],
+                          // ),
+                          // const SizedBox(
+                          //   height: 20,
+                          // ),
+                          ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: widget.state.team?.members?.length ?? 0,
+                            itemBuilder: (context, index) {
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Flexible(
+                                        child: Column(
+                                          children: [
+                                            CustomTextWidget(
+                                                widget
+                                                        .state
+                                                        .team
+                                                        ?.members?[index]
+                                                        .name ??
+                                                    " ",
+                                                fontFamily,
+                                                FontWeight.w400,
+                                                16,
+                                                const Color(0xff181818)),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      if (widget
+                                              .state.team?.members?[index].id ==
+                                          widget.state.team?.teamLeaderId)
+                                        SvgPicture.asset(
+                                            "assets/profilepageleadericon.svg")
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ],
