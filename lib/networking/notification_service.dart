@@ -45,7 +45,7 @@ class FCM {
                 channel.id,
                 channel.name,
 
-                icon: "ic_launcher",
+                icon: "app_icon",
                 // other properties...
               ),
             ));
