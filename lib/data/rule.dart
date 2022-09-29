@@ -6,6 +6,7 @@ part 'rule.g.dart';
 class Rule {
   Rule(this.description);
 
+  @JsonKey(name: "content")
   String description;
 
   factory Rule.fromJson(Map<String, dynamic> json) => _$RuleFromJson(json);

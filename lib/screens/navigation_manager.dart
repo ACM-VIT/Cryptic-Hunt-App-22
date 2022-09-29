@@ -72,10 +72,7 @@ class _NavigationManagerState extends State<NavigationManager> {
                     icon: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SvgPicture.asset(
-                          'assets/navbar/cryptic_hunt_icon.svg',
-                          color: const Color(0xffFF8618),
-                        ),
+                        SvgPicture.asset("assets/profilepageleadericon.svg"),
                         SizedBox(
                           width: 10,
                         ),

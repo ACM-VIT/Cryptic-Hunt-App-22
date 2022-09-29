@@ -16,6 +16,8 @@ class GenralCard extends StatelessWidget {
   }) : super(key: key) {
     if (date != null) {
       this.date = DateTime.parse(date);
+    } else {
+      this.date = null;
     }
   }
 
