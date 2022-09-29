@@ -36,7 +36,14 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 Future main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+      // options: FirebaseOptions(
+      //     apiKey: "AIzaSyDluoN64Ybi4Xd8PjcN7qhw6ZIxU5fHxCM",
+      //     authDomain: "cryptic-hunt-2022.firebaseapp.com",
+      //     projectId: "cryptic-hunt-2022",
+      //     messagingSenderId: "907690053743",
+      //     appId: "1:907690053743:web:93897989ba1523606a7d9a")
+      );
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   setup();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);

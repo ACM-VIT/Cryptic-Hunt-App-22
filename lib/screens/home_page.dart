@@ -12,11 +12,13 @@ import 'package:cryptic_hunt/screens/navigation_manager.dart';
 import 'package:cryptic_hunt/screens/onBoarding.dart';
 import 'package:cryptic_hunt/screens/team_page.dart';
 import 'package:cryptic_hunt/widgets/alerts/custom_alert_dialog.dart';
+import 'package:cryptic_hunt/widgets/progressIndicator.dart';
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../networking/util.dart';
 
@@ -67,6 +69,20 @@ class _HomePageState extends State<HomePage> {
       //     }
       //   }
       // );
+      if (event is WhiteListException) {
+        showDialog(
+            context: context,
+            builder: (context) {
+              return CustomAlertDialog(
+                title: "Please check in",
+                message: "Restart your app after check in",
+                buttonText: "OK",
+                onPressed: () {
+                  onLinkLaunch();
+                },
+              );
+            });
+      }
 
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(event.userMsg),
@@ -75,12 +91,22 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
+  void onLinkLaunch() async {
+    String link = "https://cryptichunt.acmvit.in";
+    if (await canLaunchUrl(Uri.parse(link))) {
+      await launchUrl(Uri.parse(link), mode: LaunchMode.externalApplication);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     if (widget.notifier.busy)
       return Scaffold(
-        body: Center(
-          child: CircularProgressIndicator(),
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: OwlProgressIndicator(),
+          ),
         ),
       );
     if (widget.notifier.state == HomePageState.onBoardingScreen) {

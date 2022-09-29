@@ -1,5 +1,6 @@
 import 'package:cryptic_hunt/Providers/leaderboard_page_notifier.dart';
 import 'package:cryptic_hunt/widgets/leaderboard_list_item.dart';
+import 'package:cryptic_hunt/widgets/progressIndicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -27,7 +28,7 @@ class _LeaderBoardListState extends State<LeaderBoardList> {
   Widget build(BuildContext context) {
     return (widget.state.busy)
         ? Center(
-            child: CircularProgressIndicator(),
+            child: OwlProgressIndicator(),
           )
         : RefreshIndicator(
             onRefresh: getLeaderBoard,

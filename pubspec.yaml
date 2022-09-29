@@ -91,6 +91,7 @@ flutter:
     - assets/HamBurger/
     - assets/leaderboard/
     - assets/CreateTeam/
+    - assets/Owl-4.svg
 
     - assets/onBoarding/a.svg
     - assets/onBoarding/b.svg
@@ -104,6 +105,8 @@ flutter:
     - assets/HamBurger/profile.svg
     - assets/HamBurger/resources.svg
     - assets/HamBurger/sponsors.svg
+    - assets/HamBurger/rule.svg
+    - assets/HamBurger/announcement.svg
     - assets/HamBurger/faq.svg
     - assets/login/google_icon.png
     - assets/createTeam/Heading.svg

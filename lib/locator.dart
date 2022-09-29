@@ -12,7 +12,7 @@ import 'package:get_it/get_it.dart';
 
 void setup() {
   GetIt.I.registerLazySingleton<MyDio>(
-      () => MyDio(baseUrl: "https://crypticstaging.acmvit.in"));
+      () => MyDio(baseUrl: "https://crypticbackend.acmvit.in"));
   GetIt.I.registerLazySingleton<ApiService>(() => ApiService());
   GetIt.I.registerLazySingleton<TimelineService>(() => TimelineService());
   GetIt.I.registerSingleton<GAuthService>(GAuthService());

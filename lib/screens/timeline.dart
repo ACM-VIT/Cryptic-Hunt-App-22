@@ -1,5 +1,6 @@
 import 'package:cryptic_hunt/Providers/timeline_page_notifier.dart';
 import 'package:cryptic_hunt/widgets/custom_app_bar.dart';
+import 'package:cryptic_hunt/widgets/progressIndicator.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../widgets/card.dart';
@@ -38,7 +39,7 @@ class _Timeline extends State<Timeline> {
             Expanded(
                 child: (widget.notifier.busy)
                     ? Center(
-                        child: CircularProgressIndicator(),
+                        child: OwlProgressIndicator(),
                       )
                     : Padding(
                         padding: const EdgeInsets.all(16.0),
