@@ -53,6 +53,8 @@ dependencies:
   url_launcher: ^6.1.5
   intl: ^0.17.0
   fluttertoast: ^8.0.9
+  firebase_messaging: ^13.0.3
+  flutter_local_notifications: ^11.0.1
 
 dev_dependencies:
   flutter_launcher_icons: "^0.10.0"
