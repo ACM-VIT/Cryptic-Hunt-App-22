@@ -28,9 +28,9 @@ class _TimeDisplayState extends State<TimeDisplay> {
           contentDisplayed,
           textAlign: TextAlign.center,
           style: TextStyle(
-            height: 1.3,
+            height: 1.4,
             color: Theme.of(context).primaryColor,
-            fontSize: 45,
+            fontSize: 42,
             fontWeight: FontWeight.bold,
           ),
         ),
