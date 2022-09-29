@@ -1,29 +1,32 @@
+import 'package:cryptic_hunt/Providers/announcement_page_notifier.dart';
+import 'package:cryptic_hunt/Providers/rule_page_notifier.dart';
 import 'package:cryptic_hunt/Providers/timeline_page_notifier.dart';
 import 'package:cryptic_hunt/widgets/custom_app_bar.dart';
+import 'package:cryptic_hunt/widgets/generalCard.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../widgets/card.dart';
 
-class Timeline extends StatefulWidget {
-  static String id = "Timeline";
-  Timeline({Key? key, required this.notifier}) : super(key: key);
+class AnnouncementPage extends StatefulWidget {
+  static String id = "Announcement";
+  AnnouncementPage({Key? key, required this.notifier}) : super(key: key);
 
-  TimelinePageNotifier notifier = TimelinePageNotifier();
+  AnnouncementPageNotifier notifier = AnnouncementPageNotifier();
 
   @override
-  State<Timeline> createState() => _Timeline();
+  State<AnnouncementPage> createState() => _AnnouncementPage();
 }
 
-class _Timeline extends State<Timeline> {
+class _AnnouncementPage extends State<AnnouncementPage> {
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) => getTimeline());
+    WidgetsBinding.instance.addPostFrameCallback((_) => getAnnouncement());
 
     super.initState();
   }
 
-  Future<void> getTimeline() async {
-    widget.notifier.getTimeline();
+  Future<void> getAnnouncement() async {
+    widget.notifier.getAnnouncements();
   }
 
   @override
@@ -33,7 +36,7 @@ class _Timeline extends State<Timeline> {
         child: Column(
           children: [
             CustomAppBarWidget(
-              title: "Timeline",
+              title: "Announcement",
             ),
             Expanded(
                 child: (widget.notifier.busy)
@@ -43,40 +46,17 @@ class _Timeline extends State<Timeline> {
                     : Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: RefreshIndicator(
-                          onRefresh: getTimeline,
+                          onRefresh: getAnnouncement,
                           child: ListView.builder(
-                            itemCount:
-                                widget.notifier.timelineObjectList.length,
+                            itemCount: widget.notifier.announcements.length,
                             itemBuilder: (context, index) {
-                              DateTime temp = DateTime.parse(widget.notifier
-                                  .timelineObjectList[index].startTime);
-                              DateTime end = temp.add(Duration(
-                                  hours: widget.notifier
-                                      .timelineObjectList[index].numHours));
-                              String day = "";
-                              switch (temp.day) {
-                                case 1:
-                                  day = "1st";
-                                  break;
-                                case 2:
-                                  day = "2nd";
-                                  break;
-                                case 3:
-                                  day = "3rd";
-                                  break;
-                                default:
-                                  day = temp.day.toString() + "th";
-                              }
-                              return CustomCard(
-                                  date: day,
-                                  day: DateFormat('EEEE').format(temp),
-                                  heading: widget
-                                      .notifier.timelineObjectList[index].title,
-                                  desc: widget.notifier
-                                          .timelineObjectList[index].subTitle ??
-                                      "",
-                                  time:
-                                      "${temp.hour.toString()}:${temp.minute.toString()} - ${end.hour.toString()}:${end.minute.toString()} ");
+                              return GenralCard(
+                                  title: widget
+                                      .notifier.announcements[index].title,
+                                  date:
+                                      widget.notifier.announcements[index].date,
+                                  description: widget.notifier
+                                      .announcements[index].description);
                             },
                           ),
                         ),

@@ -1,7 +1,9 @@
 import 'package:cryptic_hunt/networking/ApiService.dart';
+import 'package:cryptic_hunt/networking/announcement_service.dart';
 import 'package:cryptic_hunt/networking/gauth_service.dart';
 import 'package:cryptic_hunt/networking/leaderboard_service.dart';
 import 'package:cryptic_hunt/networking/profile_service.dart';
+import 'package:cryptic_hunt/networking/rule_service.dart';
 import 'package:cryptic_hunt/networking/timeline_service.dart';
 import 'package:cryptic_hunt/networking/util.dart';
 import 'package:cryptic_hunt/networking/team_service.dart';
@@ -18,4 +20,6 @@ void setup() {
   GetIt.I.registerLazySingleton<LeaderBoardService>(() => LeaderBoardService());
 
   GetIt.I.registerSingleton<TeamService>(TeamService());
+  GetIt.I.registerSingleton<RuleService>(RuleService());
+  GetIt.I.registerSingleton<AnnouncementService>(AnnouncementService());
 }
