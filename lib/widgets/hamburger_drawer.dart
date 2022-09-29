@@ -145,7 +145,7 @@ class HamburgerDrawer extends StatelessWidget {
               },
             ),
             HamburgerItem(
-              svgPicture: SvgPicture.asset('assets/HamBurger/timeline.svg'),
+              svgPicture: SvgPicture.asset('assets/HamBurger/rule.svg'),
               text: 'Rules',
               onTap: () {
                 Navigator.push(
@@ -162,7 +162,7 @@ class HamburgerDrawer extends StatelessWidget {
               },
             ),
             HamburgerItem(
-              svgPicture: SvgPicture.asset('assets/HamBurger/timeline.svg'),
+              svgPicture: SvgPicture.asset('assets/HamBurger/announcement.svg'),
               text: 'Announcements',
               onTap: () {
                 Navigator.push(

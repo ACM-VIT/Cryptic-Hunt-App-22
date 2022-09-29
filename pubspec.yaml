@@ -53,6 +53,8 @@ dependencies:
   url_launcher: ^6.1.5
   intl: ^0.17.0
   fluttertoast: ^8.0.9
+  firebase_messaging: ^13.0.3
+  flutter_local_notifications: ^11.0.1
 
 dev_dependencies:
   flutter_launcher_icons: "^0.10.0"
@@ -89,6 +91,7 @@ flutter:
     - assets/HamBurger/
     - assets/leaderboard/
     - assets/CreateTeam/
+    - assets/Owl-4.svg
 
     - assets/onBoarding/a.svg
     - assets/onBoarding/b.svg
@@ -102,6 +105,8 @@ flutter:
     - assets/HamBurger/profile.svg
     - assets/HamBurger/resources.svg
     - assets/HamBurger/sponsors.svg
+    - assets/HamBurger/rule.svg
+    - assets/HamBurger/announcement.svg
     - assets/HamBurger/faq.svg
     - assets/login/google_icon.png
     - assets/createTeam/Heading.svg

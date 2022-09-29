@@ -11,6 +11,7 @@ import 'package:cryptic_hunt/widgets/alerts/showHintAlert.dart';
 import 'package:cryptic_hunt/widgets/alerts/successAlert.dart';
 import 'package:cryptic_hunt/widgets/alerts/wrongAnswerAlert.dart';
 import 'package:cryptic_hunt/widgets/custom_app_bar.dart';
+import 'package:cryptic_hunt/widgets/progressIndicator.dart';
 import 'package:cryptic_hunt/widgets/signup/textWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
@@ -206,8 +207,11 @@ class _QuestionScreenState extends State<QuestionScreen> {
       resizeToAvoidBottomInset: true,
       backgroundColor: bgColor,
       body: (widget.notifier.busy)
-          ? Center(
-              child: CircularProgressIndicator(),
+          ? SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: OwlProgressIndicator(),
+              ),
             )
           : SafeArea(
               child: GestureDetector(
@@ -316,7 +320,8 @@ class _QuestionScreenState extends State<QuestionScreen> {
                                                   .questionGroupDetail
                                                   ?.questions?[widget
                                                       .notifier.currentIndex]
-                                                  .description ??
+                                                  .description
+                                                  .replaceAll("\\n", "\n") ??
                                               "",
                                           onOpen: (link) async {
                                             if (await canLaunchUrl(
