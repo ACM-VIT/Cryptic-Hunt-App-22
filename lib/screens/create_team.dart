@@ -13,17 +13,27 @@ class CreateTeamPage extends StatelessWidget {
   static String id = "CreateTeam";
   const CreateTeamPage({Key? key}) : super(key: key);
 
+  Future<bool> _onBack(BuildContext context) async {
+    Provider.of<TeamNotifier>(context, listen: false)
+        .updatePageState(PageState.menu);
+
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 20),
-      color: const Color(0xFFFFF4EA),
-      child: ListView(
-        children: [
-          const GenerateCodeForm(),
-          if (Provider.of<TeamNotifier>(context).codeGenerated)
-            const TeamCodeForm(),
-        ],
+    return WillPopScope(
+      onWillPop: () => _onBack(context),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 20),
+        color: const Color(0xFFFFF4EA),
+        child: ListView(
+          children: [
+            const GenerateCodeForm(),
+            if (Provider.of<TeamNotifier>(context).codeGenerated)
+              const TeamCodeForm(),
+          ],
+        ),
       ),
     );
   }

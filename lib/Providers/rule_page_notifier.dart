@@ -1,22 +1,24 @@
+import 'package:cryptic_hunt/data/rule.dart';
 import 'package:cryptic_hunt/data/timeline_object.dart';
+import 'package:cryptic_hunt/networking/rule_service.dart';
 import 'package:cryptic_hunt/networking/timeline_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
 
-class TimelinePageNotifier extends ChangeNotifier {
+class RulePageNotifier extends ChangeNotifier {
   bool busy = false;
-  List<TimelineObject> timelineObjectList = [];
-  late TimelineService api;
+  List<Rule> rules = [];
+  late RuleService api;
 
-  TimelinePageNotifier() {
-    api = GetIt.I<TimelineService>();
+  RulePageNotifier() {
+    api = GetIt.I<RuleService>();
   }
 
-  Future<void> getTimeline({bool showLoading = true}) async {
+  Future<void> getRules({bool showLoading = true}) async {
     if (busy) return;
     try {
       isBusy(true && showLoading);
-      timelineObjectList = await api.getTimelineObject() ?? [];
+      rules = await api.getRules() ?? [];
       if (showLoading == false) notifyListeners();
       isBusy(false);
     } catch (e) {

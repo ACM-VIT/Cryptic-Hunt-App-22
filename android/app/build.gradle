@@ -33,7 +33,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    compileSdkVersion 32
+    compileSdkVersion 33
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -70,6 +70,10 @@ android {
         versionName flutterVersionName
         multiDexEnabled true
     }
+
+    dependencies {
+  implementation 'com.android.support:multidex:1.0.3'
+}
 
     signingConfigs {
         release {

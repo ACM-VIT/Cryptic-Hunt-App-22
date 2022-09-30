@@ -1,7 +1,11 @@
+import 'package:cryptic_hunt/Providers/announcement_page_notifier.dart';
 import 'package:cryptic_hunt/Providers/profile_notifier.dart';
+import 'package:cryptic_hunt/Providers/rule_page_notifier.dart';
 import 'package:cryptic_hunt/Providers/team_notifier.dart';
 import 'package:cryptic_hunt/Providers/timeline_page_notifier.dart';
 import 'package:cryptic_hunt/networking/gauth_service.dart';
+import 'package:cryptic_hunt/screens/announcement_page.dart';
+import 'package:cryptic_hunt/screens/rule_page.dart';
 import 'package:cryptic_hunt/screens/timeline.dart';
 import 'package:cryptic_hunt/screens/archive_screen.dart';
 import 'package:cryptic_hunt/networking/profile_service.dart';
@@ -136,6 +140,40 @@ class HamburgerDrawer extends StatelessWidget {
                                 state: Provider.of<ProfileNotifier>(context),
                               );
                             },
+                          )),
+                );
+              },
+            ),
+            HamburgerItem(
+              svgPicture: SvgPicture.asset('assets/HamBurger/rule.svg'),
+              text: 'Rules',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          ChangeNotifierProvider<RulePageNotifier>(
+                            create: (context) => RulePageNotifier(),
+                            builder: (context, child) => RulePage(
+                                notifier:
+                                    Provider.of<RulePageNotifier>(context)),
+                          )),
+                );
+              },
+            ),
+            HamburgerItem(
+              svgPicture: SvgPicture.asset('assets/HamBurger/announcement.svg'),
+              text: 'Announcements',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          ChangeNotifierProvider<AnnouncementPageNotifier>(
+                            create: (context) => AnnouncementPageNotifier(),
+                            builder: (context, child) => AnnouncementPage(
+                                notifier: Provider.of<AnnouncementPageNotifier>(
+                                    context)),
                           )),
                 );
               },

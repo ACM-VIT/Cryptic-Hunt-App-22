@@ -35,6 +35,7 @@ class HomePageNotifier extends ChangeNotifier {
         isBusy(true);
         profile.User? profileUser = await profileService.getUserDetails();
         isBusy(false);
+        if (profileUser == null) await auth.logout();
         if (profileUser != null && profileUser.teamId == null) {
           state = HomePageState.notInTeam;
           notifyListeners();
@@ -46,7 +47,13 @@ class HomePageNotifier extends ChangeNotifier {
         }
 
         SharedPreferences pref = await SharedPreferences.getInstance();
-        String token = await user.getIdToken();
+        String token;
+        try {
+          token = await user.getIdToken();
+        } catch (e) {
+          token = "";
+        }
+
         pref.setString('tokenId', token);
       }
       FlutterNativeSplash.remove();

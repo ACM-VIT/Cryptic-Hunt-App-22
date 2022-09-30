@@ -36,7 +36,7 @@ class _CountDownTimerState extends State<CountDownTimer> {
               Padding(
                 padding: EdgeInsets.only(top: 33, bottom: 20),
                 child: Text(
-                  "Prompts",
+                  "Questions",
                   style: Theme.of(context)
                       .textTheme
                       .headline1
