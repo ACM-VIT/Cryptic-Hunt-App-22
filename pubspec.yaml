@@ -33,14 +33,15 @@ dependencies:
   timeline_tile: ^2.0.0
   cupertino_icons: ^1.0.2
   dio: ^4.0.6
-  firebase_auth: ^3.9.0
+  firebase_auth: ^4.8.0
   flutter:
     sdk: flutter
   flutter_native_splash: ^2.2.9
   flutter_svg: ^1.1.5
   get_it: ^7.2.0
   getwidget: ^3.0.1
-  google_fonts: ^3.0.1
+  google_fonts: ^5.1.0
+  firebase_core_platform_interface: 4.8.0
   google_sign_in: ^5.4.1
   introduction_screen: ^3.0.2
   json_annotation: ^4.6.0
